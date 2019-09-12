@@ -1,0 +1,366 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Documentation of the endpoints exposed by Tea Store service",
+    "version": "1.0",
+    "title": "Tea Store API Documentation"
+  },
+  "host": "localhost:8080",
+  "basePath": "/store",
+  "tags": [
+    {
+      "name": "Tea Orders",
+      "description": "Order Controller"
+    }
+  ],
+  "paths": {
+    "/orders": {
+      "get": {
+        "tags": [
+          "Tea Orders"
+        ],
+        "summary": "Get All Tea Orders",
+        "operationId": "getAllOrdersUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StoreOrder"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "Tea Orders"
+        ],
+        "summary": "Create New Tea Order",
+        "operationId": "createOrderUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "storeOrder",
+            "description": "Store Order",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StoreOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StoreOrder"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/orders/user/{id}": {
+      "get": {
+        "tags": [
+          "Tea Orders"
+        ],
+        "summary": "Get Tea Order By User Id",
+        "operationId": "getOrderByUserIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "x-example": 123
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StoreOrder"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "tags": [
+          "Tea Orders"
+        ],
+        "summary": "Get Tea Order By Id",
+        "operationId": "getOrderUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order id",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "x-example": 123
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StoreOrder"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "Tea Orders"
+        ],
+        "summary": "Delete Tea Order",
+        "operationId": "deleteOrderUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order id",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "x-example": 123
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "StoreOrder": {
+      "type": "object",
+      "required": [
+        "createdAt",
+        "items",
+        "user"
+      ],
+      "properties": {
+        "createdAt": {
+          "description": "Time the order was created at",
+          "$ref": "#/definitions/Timestamp"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Store order id"
+        },
+        "items": {
+          "type": "array",
+          "description": "Items of the order",
+          "items": {
+            "$ref": "#/definitions/StoreOrderItem"
+          }
+        },
+        "user": {
+          "example": 128,
+          "description": "User that the order belongs to",
+          "$ref": "#/definitions/User"
+        }
+      },
+      "title": "StoreOrder",
+      "description": "Store Order model"
+    },
+    "StoreOrderItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Order item id"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "Item quantity"
+        },
+        "tea": {
+          "description": "Tea type of the given item",
+          "$ref": "#/definitions/Tea"
+        }
+      },
+      "title": "StoreOrderItem",
+      "description": "Single Item in a given Order"
+    },
+    "Tea": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Tea id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Tea name"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "example": 1.2,
+          "description": "Tea price"
+        }
+      },
+      "title": "Tea",
+      "description": "Tea model"
+    },
+    "Timestamp": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "day": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hours": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minutes": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "month": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nanos": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "seconds": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "time": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "timezoneOffset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "Timestamp"
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User email"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "User id"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "User last name"
+        }
+      },
+      "title": "User",
+      "description": "User model"
+    }
+  }
+}
